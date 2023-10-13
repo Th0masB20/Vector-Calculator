@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scale Calculation</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer="true" src="script.js"></script>
+    <script defer src="calculations.js"></script>
+</head>
+<body>
+    <main>  
+        <p id="warning">Warning</p>
+        <content id="mainContainer">
+            <div class="columnContainer">
+                <div id="rowColInput1">
+                    <input type="text" autocomplete="off" value="2">
+                    <input type="text" autocomplete="off" value="2">
+                </div>
+                <div class="matrixContainer" id="firstMatrix"> 
+                    <p class="brakets">[</p>
+                    <div class="matrix1"></div>
+                    <p class="brakets">]</p>
+                </div>    
+            </div>
+            <p class="operator" id="operator">+</p>
+
+            <div class="columnContainer">
+                <div id="rowColInput2">
+                    <input type="text" autocomplete="off" value="2">
+                    <input type="text" autocomplete="off" value="2">
+                </div> 
+                <div class="matrixContainer" id="secondMatrix"> 
+                    <p class="brakets">[</p>
+                    <div class="matrix2"></div>
+                    <p class="brakets">]</p>
+                </div>
+            </div>
+
+            <p class="operator">=</p>
+
+            <div class="matrixContainer" id="answer"> 
+                <p class="brakets">[</p>
+                <div id="displayAnswer"></div>
+                <p class="brakets">]</p>
+            </div>
+        </content>
+
+        <div id="myForm">
+            <p id="description">Enter a number between 1 and 10 <br> Rows and Columns for both matricies must be the same</p>
+            <select id="selectOption" name="operation">
+                <option value="Addition">Adition</option>
+                <option value="Subtraction">Subtraction</option>
+                <option value="Multiplication">Multiplication</option>
+            </select>
+            <button type="submit">Submit</button>
+        </div>
+    </main>
+</body>
+</html>
