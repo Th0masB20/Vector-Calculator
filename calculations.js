@@ -16,7 +16,7 @@ function clear(parent)
 function changeOperator(){
     let operator = "";
     const operation = getElement("#selectOption").value;
-    const element = getElement("#operator");
+    const operatorElement = getElement("#operator");
     const description = getElement("#description");
 
     if (operation === "Addition")
@@ -24,20 +24,31 @@ function changeOperator(){
         operator = "+";
         description.innerHTML = "Rows and columns for both matrices must be the same";
     }
-
-    if (operation === "Subtraction")
+    else if (operation === "Subtraction")
     {
         operator = "-";
         description.innerHTML = "Rows and columns for both matrices must be the same";
     }
-
-    if (operation === "Multiplication")
+    else if (operation === "Multiplication")
     {
         operator = "*";
         description.innerHTML = "Rows of the first matrix must be the same as the column of second matrix";
     }
+    
+    if(operation === 'rref')
+    {
+        getElement('#secondMatrix').style.display = 'none';
+        getElement('#rowColInput2').style.display = 'none';
+        operatorElement.style.display = 'none';
+    }
+    else 
+    {
+        getElement('#secondMatrix').style.display = 'flex';
+        getElement('#rowColInput2').style.display = 'block';
+        operatorElement.style.display = 'block';
+    }
 
-    element.innerHTML = operator
+    operatorElement.innerHTML = operator;
 }
 
 function addition()
@@ -121,6 +132,7 @@ function multiplication()
         warning.style.display = "block";
     }
 }
+
 
 function createAnswerNode(value, parent, row, col)
 {
