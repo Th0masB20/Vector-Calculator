@@ -40,6 +40,11 @@ function changeOperator(){
         operator = "*";
         description.innerHTML = "Rows of the first matrix must be the same as the column of second matrix";
     }
+    else if (operation === "rref")
+    {
+        operator = "";
+        description.innerHTML = "Enter Real Numbers";
+    }
     
     if(operation === 'rref')
     {
@@ -68,7 +73,6 @@ function convertInput(input)
         return Number(input);
     }
 }
-
 
 function getlowestfraction(x0) {
     var eps = 1.0E-9;
@@ -217,6 +221,17 @@ function rref()
     
     let matrix = createMatrixArray('.matrix1',col1);
 
+    if(row1 == 0 || col1 == 0)
+    {
+        console.log('run');
+        warning.innerHTML = "You must set a dimention to the matrix"
+        warning.style.display = 'block';
+        return;
+    }
+    else{
+        warning.style.display = 'none';
+    }
+
     for(let mainRow = 0; mainRow < row1; mainRow++)
     {
         let pivotRow = mainRow;
@@ -281,6 +296,10 @@ function createAnswerNode(value, parent, row, col, isArray=false)
         {
             for(let c = 0; c < col; c++)
             {
+                if(isNaN(value[r][c]))
+                {
+                    value[r][c] = 0;
+                }
                 const div = document.createElement("div");
                 const text = document.createElement("p");
                 text.innerHTML = returnFormatedAnswer(value[r][c]);

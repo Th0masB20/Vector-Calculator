@@ -4,7 +4,14 @@ const matrixIndex = (id) => id.charAt(id.length - 1);
 const cssRoot = document.querySelector(":root");
 
 let scaleIncrementVal = (rowId) => {
-    if((Number(getVal(rowId)) - 2) > 0)
+    let matrixId = matrixIndex(rowId);
+
+    console.log((getVal('--col' + matrixId)));
+    if (getVal('--col' + matrixId) == 0)
+    {
+        return 1;
+    }
+    else if ((Number(getVal(rowId)) - 2) > 0)
     {
         return 1 + (Number(getVal(rowId)) - 2) * 0.5;
     } 
@@ -51,14 +58,6 @@ function changeColumn(id)
     clear(getElement("#displayAnswer"));
     let value = Number(getChildrenOf(id)[1].value);
 
-    if(isNaN(value) || value === 0)
-    {
-        cssRoot.style.setProperty("--scale" + matrixIndex(id), 1);
-    }
-    else {
-        changeRow(id); // set the scale of the brackets
-    }
-
     if(value > 6)
     {
         warning.innerHTML = `Enter a number between 1 and 6`;
@@ -80,6 +79,15 @@ function changeColumn(id)
 
     const colId = "--col" + matrixIndex(id);
     cssRoot.style.setProperty(colId, value);
+
+    //sets right size of brakets
+    if(isNaN(value) || value === 0)
+    {
+        cssRoot.style.setProperty("--scale" + matrixIndex(id), 1);
+    }
+    else {
+        changeRow(id); // set the scale of the brackets
+    }
 
     col1 = getVal('--col1');
     col2 = getVal('--col2');
@@ -112,21 +120,27 @@ function createMatrixEntry(id)
 createMatrixEntry(".matrix1");
 createMatrixEntry(".matrix2");
 
+
+
 //when changing value of row and col input
-getChildrenOf("#rowColInput1")[1].addEventListener("input", function () {changeColumn("#rowColInput1")});
-getChildrenOf("#rowColInput1")[0].addEventListener("input", function () {changeRow("#rowColInput1")});
+getChildrenOf("#rowColInput1")[1].addEventListener("input", () => {
+    changeColumn("#rowColInput1");
+    createMatrixEntry(".matrix1");
+});
+getChildrenOf("#rowColInput1")[0].addEventListener("input", function () {
+    changeRow("#rowColInput1");
+    createMatrixEntry(".matrix1")
+});
 
-//update Grid when input changes
-getChildrenOf("#rowColInput1")[0].addEventListener("input", function () {createMatrixEntry(".matrix1")});
-getChildrenOf("#rowColInput1")[1].addEventListener("input", function () {createMatrixEntry(".matrix1")});
-
-
-getChildrenOf("#rowColInput2")[1].addEventListener("input", function () {changeColumn("#rowColInput2")});
-getChildrenOf("#rowColInput2")[0].addEventListener("input", function () {changeRow("#rowColInput2")});
-
-getChildrenOf("#rowColInput2")[0].addEventListener("input", function () {createMatrixEntry(".matrix2")});
-getChildrenOf("#rowColInput2")[1].addEventListener("input", function () {createMatrixEntry(".matrix2")});
-
+//second imput changes
+getChildrenOf("#rowColInput2")[1].addEventListener("input", function () {
+    changeColumn("#rowColInput2");
+    createMatrixEntry(".matrix2");
+});
+getChildrenOf("#rowColInput2")[0].addEventListener("input", function () {
+    changeRow("#rowColInput2");
+    createMatrixEntry(".matrix2");
+});
 
 
 
