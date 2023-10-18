@@ -40,6 +40,9 @@ function changeRow(id)
     cssRoot.style.setProperty(rowId, value);
 
     cssRoot.style.setProperty("--scale" + matrixIndex(id), scaleIncrementVal(rowId));
+
+    row1 = getVal('--row1');
+    row2 = getVal('--row2');
 }
 
 
@@ -48,7 +51,6 @@ function changeColumn(id)
     clear(getElement("#displayAnswer"));
     let value = Number(getChildrenOf(id)[1].value);
 
-    console.log(value);
     if(isNaN(value) || value === 0)
     {
         cssRoot.style.setProperty("--scale" + matrixIndex(id), 1);
@@ -78,6 +80,9 @@ function changeColumn(id)
 
     const colId = "--col" + matrixIndex(id);
     cssRoot.style.setProperty(colId, value);
+
+    col1 = getVal('--col1');
+    col2 = getVal('--col2');
 }
 
 function createMatrixEntry(id)

@@ -1,13 +1,19 @@
+const getVal = (id) => Number(getComputedStyle(cssRoot).getPropertyValue(id));
+
 const matrix1 = getChildrenOf(".matrix1"); 
 const matrix2 = getChildrenOf(".matrix2");
 
-const getVal = (id) => Number(getComputedStyle(cssRoot).getPropertyValue(id));
+let row1 = getVal('--row1');
+let row2 = getVal('--row2');
+let col1 = getVal("--col1");
+let col2 = getVal("--col2");
+
 const warning = getElement("#warning");
 
 
 function clear(parent)
 {
-    while (parent.firstChild)
+    while(parent.firstChild)
     {
         parent.removeChild(parent.lastChild)
     }
@@ -51,17 +57,65 @@ function changeOperator(){
     operatorElement.innerHTML = operator;
 }
 
+function convertInput(input)
+{
+    if(input.charAt(1) === "/")
+    {
+        return Number(input.charAt(0))/Number(input.charAt(2));
+    }
+    else
+    {
+        return Number(input);
+    }
+}
+
+
+function getlowestfraction(x0) {
+    var eps = 1.0E-9;
+    var h, h1, h2, k, k1, k2, a, x;
+
+    x = x0;
+    a = Math.floor(x);
+    h1 = 1;
+    k1 = 0;
+    h = a;
+    k = 1;
+
+    while (x-a > eps*k*k) {
+        x = 1/(x-a);
+        a = Math.floor(x);
+        h2 = h1; h1 = h;
+        k2 = k1; k1 = k;
+        h = h2 + a*h1;
+        k = k2 + a*k1;
+    }
+
+    return h + "/" + k;
+}
+
+function returnFormatedAnswer(answer)
+{
+    if(Number(answer) % 1 !== 0 ){
+       return getlowestfraction(answer);
+    }
+    else 
+    {
+        return answer;
+    }
+}
+
 function addition()
 {
-    const parent = getElement("#displayAnswer");
-    clear(parent);
-    if (getVal("--row1") === getVal("--row2") && getVal("--col1") === getVal("--col2"))
+    const display = getElement("#displayAnswer");
+    clear(display);
+    if (row1 === row2 && col1 === col2)
     {
         warning.style.display = "none";
-        for(let i = 0; i < getVal("--row1")*getVal("--col1"); i++)
+        for(let i = 0; i < row1*row1; i++)
         {
-            const value = Number(matrix1[i].value) + Number(matrix2[i].value);
-            createAnswerNode(value, parent,getVal("--row1"),getVal("--col2"));
+            let value = convertInput(matrix1[i].value) + convertInput(matrix2[i].value);
+            value = returnFormatedAnswer(value);
+            createAnswerNode(value, display,row1,col2);
         }
     }
     else
@@ -73,15 +127,16 @@ function addition()
 
 function subtraction()
 {
-    const parent = getElement("#displayAnswer");
-    clear(parent);
-    if (getVal("--row1") === getVal("--row2") && getVal("--col1") === getVal("--col2"))
+    const display = getElement("#displayAnswer");
+    clear(display);
+    if (row1 === row2 && col1 === col2)
     {
         warning.style.display = "none";
-        for(let i = 0; i < getVal("--row1") * getVal("--col1"); i++)
+            for(let i = 0; i < row1 * row1; i++)
         {
-            const value = Number(matrix1[i].value) - Number(matrix2[i].value);
-            createAnswerNode(value, parent,getVal("--row1"),getVal("--col2"));
+            let value = convertInput(matrix1[i].value) - convertInput(matrix2[i].value);
+            value = returnFormatedAnswer(value);
+            createAnswerNode(value, display,row1,col2);
         }
     }
     else
@@ -94,7 +149,7 @@ function subtraction()
 
 function multiplication()
 {
-    const parent = getElement("#displayAnswer");
+    const display = getElement("#displayAnswer");
     const maxColM2 = getVal("--col2");
     const maxRowM2 = getVal("--row2");
 
@@ -104,7 +159,7 @@ function multiplication()
     let matrix1CurCount = 0;
     let valueOfInput = 0;
 
-    clear(parent);
+    clear(display);
     
     if (maxColM1 === maxRowM2)
     {
@@ -118,9 +173,9 @@ function multiplication()
                 {
                     let M2Index = col + (r * maxColM2);
                     let matrix1Col = r + (matrix1CurCount * maxColM1);
-                    valueOfInput += getChildrenOf(".matrix2")[M2Index].value * getChildrenOf(".matrix1")[matrix1Col].value;
+                    valueOfInput += convertInput(getChildrenOf(".matrix2")[M2Index].value) * convertInput(getChildrenOf(".matrix1")[matrix1Col].value);
                 }
-                createAnswerNode(valueOfInput, parent, maxRowM1, maxColM2);
+                createAnswerNode(valueOfInput, display, maxRowM1, maxColM2);
                 valueOfInput = 0;
             }
             matrix1CurCount++;
@@ -133,8 +188,86 @@ function multiplication()
     }
 }
 
+function createMatrixArray(id,col)
+{
+    const arr = [];
+    let curRow = 0;
+    for(let index = 0; index < getChildrenOf(id).length; index++)
+    {
+        if(index != 0 && index % col == 0)
+        {
+            curRow++;
+        }
+        if(!arr[curRow])
+        {
+            arr.push([]);
+        }
+        
+        arr[curRow].push(getChildrenOf(id)[index].value);
+    }
+    return arr;
+}
 
-function createAnswerNode(value, parent, row, col)
+
+
+function rref()
+{
+    const display = getElement("#displayAnswer");
+    clear(display);
+    
+    let matrix = createMatrixArray('.matrix1',col1);
+
+    for(let mainRow = 0; mainRow < row1; mainRow++)
+    {
+        let pivotRow = mainRow;
+        let pivotColumn = 0;
+        while(matrix[pivotRow][pivotColumn] == 0)
+        {
+            pivotRow++;
+
+            if(pivotRow == row1)
+            {
+                pivotRow = mainRow;
+                pivotColumn++;
+                if(pivotColumn == col1)
+                {
+                    break;
+                }
+            }
+        }
+
+        let temp = matrix[mainRow];
+        matrix[mainRow] = matrix[pivotRow];
+        matrix[pivotRow] = temp;  // main row is now pivot row
+
+        //divide entire row by pivot point
+        let leadVal = matrix[mainRow][pivotColumn];
+        for(let i = pivotColumn; i < col1; i++)
+        { 
+            matrix[mainRow][i] /= leadVal;
+        }
+
+        for(let row = 0; row < row1; row++)
+        {
+            if(row == mainRow)
+            {
+                continue;
+            }
+
+            let multiple = matrix[row][pivotColumn];
+            
+            for(let col = 0; col < col1; col++)
+            {
+                matrix[row][col] = matrix[row][col] - (multiple*matrix[mainRow][col]);
+            }
+        }
+    }
+
+    createAnswerNode(matrix,display,row1,col1,true);
+}
+
+
+function createAnswerNode(value, parent, row, col, isArray=false)
 {
     cssRoot.style.setProperty("--rowAnswer", row);
     cssRoot.style.setProperty("--colAnswer", col);
@@ -142,13 +275,28 @@ function createAnswerNode(value, parent, row, col)
     let v = scaleIncrementVal("--rowAnswer");
     cssRoot.style.setProperty("--scaleAnswer", v);
 
-    const div = document.createElement("div");
-    const text = document.createElement("p");
-    text.innerHTML = value;
-    div.appendChild(text);
-    parent.appendChild(div);
+    if(isArray)
+    {
+        for(let r = 0; r < row; r++)
+        {
+            for(let c = 0; c < col; c++)
+            {
+                const div = document.createElement("div");
+                const text = document.createElement("p");
+                text.innerHTML = returnFormatedAnswer(value[r][c]);
+                div.appendChild(text);
+                parent.appendChild(div);
+            }
+        }
+    }
+    else{
+        const div = document.createElement("div");
+        const text = document.createElement("p");
+        text.innerHTML = value;
+        div.appendChild(text);
+        parent.appendChild(div);
+    }
 }
-
 function runFunction()
 {
     const operation = getElement("#selectOption").value;
@@ -165,6 +313,11 @@ function runFunction()
     if(operation === "Multiplication")
     {
         multiplication();
+    }
+
+    if(operation === "rref")
+    {
+        rref();
     }
 }
 
