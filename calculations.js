@@ -20,6 +20,8 @@ function clear(parent)
 }
 
 function changeOperator(){
+    clear(getElement("#displayAnswer"));
+
     let operator = "";
     const operation = getElement("#selectOption").value;
     const operatorElement = getElement("#operator");
@@ -112,10 +114,11 @@ function addition()
 {
     const display = getElement("#displayAnswer");
     clear(display);
+    
     if (row1 === row2 && col1 === col2)
     {
         warning.style.display = "none";
-        for(let i = 0; i < row1*row1; i++)
+        for(let i = 0; i < row1*col1; i++)
         {
             let value = convertInput(matrix1[i].value) + convertInput(matrix2[i].value);
             value = returnFormatedAnswer(value);
@@ -136,7 +139,7 @@ function subtraction()
     if (row1 === row2 && col1 === col2)
     {
         warning.style.display = "none";
-            for(let i = 0; i < row1 * row1; i++)
+        for(let i = 0; i < row1 * col1; i++)
         {
             let value = convertInput(matrix1[i].value) - convertInput(matrix2[i].value);
             value = returnFormatedAnswer(value);
@@ -288,6 +291,7 @@ function createAnswerNode(value, parent, row, col, isArray=false)
     cssRoot.style.setProperty("--colAnswer", col);
 
     let v = scaleIncrementVal("--rowAnswer");
+    console.log(v);
     cssRoot.style.setProperty("--scaleAnswer", v);
 
     if(isArray)
