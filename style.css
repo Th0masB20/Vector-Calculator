@@ -177,7 +177,6 @@
   width:170px;
   height:25px;
   margin:0px 0 15px 0;
-
 }
 
 #myForm > button{
@@ -185,4 +184,57 @@
     height:30px;
     background-color:lightgreen;
     border-radius:10px;
+}
+
+@media screen and (max-width: 560px){
+
+    :root{
+        --widthSize: 30px;
+        --size:25px;
+    }
+
+    #mainContainer{
+        flex-direction: column;
+        align-items:center;
+        justify-content:center;
+        padding-top:10px;
+    }
+
+    .brakets{
+        text-align: center;
+
+        font-size:65px;
+        line-height:36px;
+        height:50px;
+    }
+
+    #rowColInput1> input{
+        width:20px;
+        height:20px;
+        text-align:center;
+    }
+      
+    #rowColInput2 > input{
+        width:20px;
+        height:20px;
+        text-align:center;
+    }
+
+    .operator{
+        font-size:40px;
+        padding:0;
+        margin:20px;
+    }
+
+    #description
+    {
+        font-size:15px;
+        margin-top:40px;
+        color:red;
+        font-weight:bold;
+    }
+
+    #answer{
+        padding-top:0;
+    }    
 }
