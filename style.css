@@ -177,7 +177,6 @@
   width:170px;
   height:25px;
   margin:0px 0 15px 0;
-
 }
 
 #myForm > button{
@@ -185,4 +184,34 @@
     height:30px;
     background-color:lightgreen;
     border-radius:10px;
+}
+
+@media screen and (max-width: 560px){
+
+    #mainContainer{
+        flex-direction: column;
+        align-items:center;
+        justify-content:center;
+        padding-top:10px;
+    }
+
+    .operator{
+        padding:0;
+        margin:20px;
+    }
+
+    #description
+    {
+        margin-top:40px;
+        color:red;
+        font-weight:bold;
+    }
+
+    #answer{
+        padding-top:0;
+    }  
+    
+    body{
+        margin-bottom:100px;     
+    }
 }
