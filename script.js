@@ -3,17 +3,16 @@ const getChildrenOf = (id) => document.querySelector(id).children;
 const matrixIndex = (id) => id.charAt(id.length - 1);
 const cssRoot = document.querySelector(":root");
 
-let scaleIncrementVal = (rowId) => {
-    let matrixId = matrixIndex(rowId);
+let scaleIncrementVal = (id) => {
+    let matrixId = Number(matrixIndex(id));
 
-    console.log((getVal('--col' + matrixId)));
-    if (getVal('--col' + matrixId) == 0)
+    if (!isNaN(matrixId) && getVal('--col' + matrixId) === 0)
     {
         return 1;
     }
-    else if ((Number(getVal(rowId)) - 2) > 0)
+    else if ((Number(getVal(id)) - 2) > 0)
     {
-        return 1 + (Number(getVal(rowId)) - 2) * 0.5;
+        return 1 + (Number(getVal(id)) - 2) * 0.5;
     } 
     return 1;
 }

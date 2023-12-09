@@ -20,6 +20,8 @@ function clear(parent)
 }
 
 function changeOperator(){
+    clear(getElement("#displayAnswer"));
+
     let operator = "";
     const operation = getElement("#selectOption").value;
     const operatorElement = getElement("#operator");
@@ -64,9 +66,16 @@ function changeOperator(){
 
 function convertInput(input)
 {
-    if(input.charAt(1) === "/")
+    let numbers = input.split('/');
+    if(numbers.length > 2)
     {
-        return Number(input.charAt(0))/Number(input.charAt(2));
+        warning.style.display = "block";
+        warning.innerHTML = "Input Fraction is not right";
+    }
+
+    if(numbers.length > 1)
+    {
+        return (Number(numbers[0]) / Number(numbers[1]));
     }
     else
     {
@@ -112,10 +121,11 @@ function addition()
 {
     const display = getElement("#displayAnswer");
     clear(display);
+    
     if (row1 === row2 && col1 === col2)
     {
         warning.style.display = "none";
-        for(let i = 0; i < row1*row1; i++)
+        for(let i = 0; i < row1*col1; i++)
         {
             let value = convertInput(matrix1[i].value) + convertInput(matrix2[i].value);
             value = returnFormatedAnswer(value);
@@ -136,7 +146,7 @@ function subtraction()
     if (row1 === row2 && col1 === col2)
     {
         warning.style.display = "none";
-            for(let i = 0; i < row1 * row1; i++)
+        for(let i = 0; i < row1 * col1; i++)
         {
             let value = convertInput(matrix1[i].value) - convertInput(matrix2[i].value);
             value = returnFormatedAnswer(value);
@@ -179,6 +189,7 @@ function multiplication()
                     let matrix1Col = r + (matrix1CurCount * maxColM1);
                     valueOfInput += convertInput(getChildrenOf(".matrix2")[M2Index].value) * convertInput(getChildrenOf(".matrix1")[matrix1Col].value);
                 }
+                valueOfInput = returnFormatedAnswer(valueOfInput);
                 createAnswerNode(valueOfInput, display, maxRowM1, maxColM2);
                 valueOfInput = 0;
             }
@@ -207,7 +218,7 @@ function createMatrixArray(id,col)
             arr.push([]);
         }
         
-        arr[curRow].push(getChildrenOf(id)[index].value);
+        arr[curRow].push(convertInput(getChildrenOf(id)[index].value));
     }
     return arr;
 }
@@ -223,7 +234,6 @@ function rref()
 
     if(row1 == 0 || col1 == 0)
     {
-        console.log('run');
         warning.innerHTML = "You must set a dimention to the matrix"
         warning.style.display = 'block';
         return;
@@ -257,6 +267,7 @@ function rref()
 
         //divide entire row by pivot point
         let leadVal = matrix[mainRow][pivotColumn];
+
         for(let i = pivotColumn; i < col1; i++)
         { 
             matrix[mainRow][i] /= leadVal;
