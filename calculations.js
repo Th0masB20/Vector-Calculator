@@ -127,7 +127,6 @@ function addition()
         warning.style.display = "none";
         for(let i = 0; i < row1*col1; i++)
         {
-            console.log(convertInput(matrix1[i].value));
             let value = convertInput(matrix1[i].value) + convertInput(matrix2[i].value);
             value = returnFormatedAnswer(value);
             createAnswerNode(value, display,row1,col2);

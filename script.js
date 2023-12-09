@@ -12,7 +12,6 @@ let scaleIncrementVal = (id) => {
     }
     else if ((Number(getVal(id)) - 2) > 0)
     {
-        console.log(Number(getVal(id)) - 2);
         return 1 + (Number(getVal(id)) - 2) * 0.5;
     } 
     return 1;
