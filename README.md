@@ -1,8 +1,8 @@
-## Addition and Multiplication: \
-![ezgif com-video-to-gif-converter](https://github.com/Th0masB20/Vector-Calculator/assets/79704094/4a3eb187-1913-4dd8-80a8-bd7059c4e126)
+# Addition and Multiplication:
+![ezgif com-crop (1)](https://github.com/Th0masB20/Vector-Calculator/assets/79704094/f5804e1d-ebfb-4fc6-9659-abb3de80eec7)
 
-## Multiplication:\
-![ezgif com-video-to-gif-converter (1)](https://github.com/Th0masB20/Vector-Calculator/assets/79704094/04d8fcc9-c167-4a12-b0e0-1cb822030f61)
+# Multiplication:
+![ezgif com-crop (2)](https://github.com/Th0masB20/Vector-Calculator/assets/79704094/007b7a7a-aaf7-4317-9ef4-fc66aff0ae3c)
 
-## Row Reduced Echelon Form: \
+# Row Reduced Echelon Form:
 ![ezgif com-crop](https://github.com/Th0masB20/Vector-Calculator/assets/79704094/000f2ca0-30ec-4c8d-aa7d-52382add1378)
